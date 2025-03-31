@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+    <h1>Mon Panier</h1>
+
+    <ul>
+        {% for panier in paniers %}
+            <li>
+                <strong>{{ panier.date_creation }}</strong> — {{ panier.etat }} €
+                <strong>{{ panier.utilisateur_id }}</strong>
+            </li>
+        {% else %}
+            <li>Aucun article trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
