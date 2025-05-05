@@ -9,15 +9,26 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Bienvenue sur Shuz ! 👟</h1>
+    <h1>Bienvenue sur Hardware.Picker</h1>
 
-    {% if app.user %}
-        <p>Bonjour {{ app.user.prenom }} !</p>
-        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-    {% else %}
-        <a href="{{ path('app_login') }}">Se connecter</a> |
-        <a href="{{ path('app_register') }}">Créer un compte</a>
-    {% endif %}
+    <h1>Nos produits</h1>
+
+    <div class="row">
+        {% for article in articles %}
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ article.nom }}</h5>
+                        <p class="card-text">{{ article.description }}</p>
+                        <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <p>Aucun article disponible.</p>
+        {% endfor %}
+    </div>
+
 
 </div>
 {% endblock %}
