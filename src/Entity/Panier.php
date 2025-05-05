@@ -15,7 +15,7 @@ class Panier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(name: "date_creation")]
     private ?\DateTimeImmutable $dateCreation = null;
 
     #[ORM\Column(length: 255, nullable: true)]

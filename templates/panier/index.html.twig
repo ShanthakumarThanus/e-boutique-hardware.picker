@@ -8,8 +8,8 @@
     <ul>
         {% for panier in paniers %}
             <li>
-                <strong>{{ panier.date_creation }}</strong> — {{ panier.etat }} €
-                <strong>{{ panier.utilisateur_id }}</strong>
+                <strong>{{ panier.dateCreation|date('d/m/Y H:i') }}</strong> — {{ panier.etat }} €
+                <strong>{{ panier.utilisateur.__toString() }}</strong>
             </li>
         {% else %}
             <li>Aucun article trouvé.</li>
