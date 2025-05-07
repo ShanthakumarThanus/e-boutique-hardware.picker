@@ -18,9 +18,25 @@ final class PanierController extends AbstractController
     #[Route('/panier', name: 'app_panier')]
     public function index(PanierRepository $panierRepository): Response
     {
-        $paniers = $panierRepository->findAll();
+        /** @var \App\Entity\Utilisateur $utilisateur */
+        $utilisateur = $this->getUser();
+        $panier = $utilisateur->getPanier();
+
+        if (!$panier) {
+            $this->addFlash('warning', 'Votre panier est vide.');
+            return $this->redirectToRoute('app_home');
+        }
+
+        $lignes = $panier->getLignesPanier();
+        $total = 0;
+        
+        foreach ($lignes as $ligne) {
+            $total += $ligne->getQuantite() * $ligne->getArticle()->getPrix();
+        }
+
         return $this->render('panier/index.html.twig', [
-            'paniers' => $paniers,
+            'lignes' => $lignes,
+            'total' => $total,
         ]);
     }
 
@@ -29,30 +45,82 @@ final class PanierController extends AbstractController
     {
         /** @var \App\Entity\Utilisateur $utilisateur */
         $utilisateur = $this->getUser();
-        $panier = $utilisateur->getPanier(); // ou autre logique de récupération
+        $panier = $utilisateur->getPanier();
 
-        //Créer un panier si l'utilisateur n'en a pas
         if (!$panier) {
             $panier = new \App\Entity\Panier();
             $panier->setUtilisateur($utilisateur);
             $panier->setDateCreation(new \DateTimeImmutable());
-            $utilisateur->setPanier($panier);
             $em->persist($panier);
+            $utilisateur->setPanier($panier);
         }
 
-        $ligne = new LignePanier();
-        $ligne->setArticle($article);
-        $ligne->setQuantite(1);
-        $ligne->setPanier($panier);
+        // Vérifie si une ligne existe déjà pour cet article
+        $ligneExistante = null;
+        foreach ($panier->getLignesPanier() as $ligne) {
+            if ($ligne->getArticle() === $article) {
+                $ligneExistante = $ligne;
+                break;
+            }
+        }
 
-        $panier->addLignePanier($ligne);
+        if ($ligneExistante) {
+            // Incrémente la quantité
+            $ligneExistante->setQuantite($ligneExistante->getQuantite() + 1);
+        } else {
+            // Crée une nouvelle ligne
+            $ligne = new LignePanier();
+            $ligne->setArticle($article);
+            $ligne->setQuantite(1);
+            $ligne->setPanier($panier); // n'oublie pas d’associer le panier à la ligne
 
-        $em->persist($ligne);
+            $em->persist($ligne);
+            $panier->addLignePanier($ligne);
+        }
+
         $em->flush();
 
         $this->addFlash('success', 'Article ajouté au panier.');
 
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/panier/remove/{id}', name:'retirer_du_panier')]
+    public function retirerDuPanier(LignePanier $ligne, EntityManagerInterface $em): Response
+    {
+        $em->remove($ligne);
+        $em->flush();
+
+        $this->addFlash('success', 'Article retiré du panier.');
+        return $this->redirectToRoute('app_panier');
+    }
+
+    
+    //Fonction pour incrémenter la quantité d'un article ajouté dans le panier
+    #[Route('/panier/increment/{id}', name: 'increment_quantite')]
+    public function incrementQuantite(LignePanier $ligne, EntityManagerInterface $em): Response
+    {
+        $ligne->setQuantite($ligne->getQuantite() + 1);
+        $em->flush();
+
+        return $this->redirectToRoute('app_panier');
+    }
+
+    //Fonction pour décrémenter la quantité d'un article ajouté dans le panier
+    #[Route('/panier/decrement/{id}', name: 'decrement_quantite')]
+    public function decrementQuantite(LignePanier $ligne, EntityManagerInterface $em): Response
+    {
+        $quantite = $ligne->getQuantite();
+        if ($quantite > 1) {
+            $ligne->setQuantite($quantite - 1);
+            $em->flush();
+        } else {
+            // Si quantité devient 0, on peut le retirer du panier
+            $em->remove($ligne);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('app_panier');
     }
 
 }

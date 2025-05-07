@@ -23,7 +23,7 @@ class CategorieCrudController extends AbstractCrudController
             TextField::new('nom'),
             ImageField::new('image')
                 ->setBasePath('/uploads/images/categories')
-                ->setUploadDir('/uploads/images/categories')
+                ->setUploadDir('public/uploads/images/categories')
                 ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
                 ->setLabel('Image'),
         ];

@@ -1,18 +1,45 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/panier.css') }}">
+{% endblock %}
+
 {% block title %}Mon Panier{% endblock %}
 
 {% block body %}
+<div class="panier-container">
     <h1>Mon Panier</h1>
 
-    <ul>
-        {% for panier in paniers %}
-            <li>
-                <strong>{{ panier.dateCreation|date('d/m/Y H:i') }}</strong> — {{ panier.etat }} €
-                <strong>{{ panier.utilisateur.__toString() }}</strong>
-            </li>
-        {% else %}
-            <li>Aucun article trouvé.</li>
-        {% endfor %}
-    </ul>
+    {% if lignes is not empty %}
+        <div class="row">
+    {% for ligne in lignes %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                {% if ligne.article.image %}
+                    <img src="{{ asset('uploads/images/' ~ ligne.article.image) }}" class="card-img-top" alt="{{ ligne.article.nom }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ ligne.article.nom }}</h5>
+                    <p class="card-text">{{ ligne.quantite }} × {{ ligne.article.prix }} € = <strong>{{ ligne.quantite * ligne.article.prix }} €</strong></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="{{ path('decrement_quantite', {id: ligne.id}) }}" class="btn btn-sm btn-outline-secondary">-</a>
+                            <a href="{{ path('increment_quantite', {id: ligne.id}) }}" class="btn btn-sm btn-outline-secondary">+</a>
+                        </div>
+                        <a href="{{ path('retirer_du_panier', {id: ligne.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="text-end mt-3">
+    <h4>Total : {{ total }} €</h4>
+</div>
+
+    {% else %}
+        <p>Votre panier est vide.</p>
+    {% endif %}
+</div>
 {% endblock %}
