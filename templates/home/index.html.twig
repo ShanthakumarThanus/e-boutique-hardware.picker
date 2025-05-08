@@ -38,7 +38,6 @@
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ article.nom }}</h5>
-                        <p class="card-text">{{ article.description }}</p>
                         <p class="card-text"><strong>{{ article.prix }} €</strong></p>
                         <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
                             <button type="submit" class="btn btn-primary">Ajouter au panier</button>

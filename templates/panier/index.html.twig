@@ -7,39 +7,44 @@
 {% block title %}Mon Panier{% endblock %}
 
 {% block body %}
-<div class="panier-container">
+<div class="container mt-4">
     <h1>Mon Panier</h1>
 
     {% if lignes is not empty %}
-        <div class="row">
-    {% for ligne in lignes %}
-        <div class="col-md-4">
-            <div class="card mb-4 shadow-sm">
-                {% if ligne.article.image %}
-                    <img src="{{ asset('uploads/images/' ~ ligne.article.image) }}" class="card-img-top" alt="{{ ligne.article.nom }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ ligne.article.nom }}</h5>
-                    <p class="card-text">{{ ligne.quantite }} × {{ ligne.article.prix }} € = <strong>{{ ligne.quantite * ligne.article.prix }} €</strong></p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="{{ path('decrement_quantite', {id: ligne.id}) }}" class="btn btn-sm btn-outline-secondary">-</a>
-                            <a href="{{ path('increment_quantite', {id: ligne.id}) }}" class="btn btn-sm btn-outline-secondary">+</a>
+        {% for ligne in lignes %}
+            <div class="card mb-3">
+                <div class="row g-0 align-items-center">
+                    {% if ligne.article.image %}
+                        <div class="col-md-2">
+                            <img src="{{ asset('uploads/images/' ~ ligne.article.image) }}" class="img-fluid rounded-start" alt="{{ ligne.article.nom }}">
                         </div>
-                        <a href="{{ path('retirer_du_panier', {id: ligne.id}) }}" class="btn btn-sm btn-danger">Supprimer</a>
-                    </div>
+                    {% endif %}
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">{{ ligne.article.nom }}</h5>
+                            <p class="card-text mb-1">{{ ligne.quantite }} × {{ ligne.article.prix }} € = <strong>{{ ligne.quantite * ligne.article.prix }} €</strong></p>
+                        <br>
+                        <div class="d-flex align-items-center gap-2 mt-3">
+                            <div class="btn-group" role="group">
+                                <a href="{{ path('decrement_quantite', {id: ligne.id}) }}" class="btn btn-outline-secondary btn-sm">-</a>
+                                <a href="" class="btn btn-outline-secondary btn-sm">{{ ligne.quantite }}</a>
+                                <a href="{{ path('increment_quantite', {id: ligne.id}) }}" class="btn btn-outline-secondary btn-sm">+</a>
+                            </div>
+                            <a href="{{ path('retirer_du_panier', {id: ligne.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+                            </div>
+                        </div>
+                    </div>                   
                 </div>
             </div>
+        {% endfor %}
+
+        <div class="text-end mt-4">
+            <h4>Total : {{ total }} € </h4>
+            <a href="test" class="btn btn-danger btn-sm">Valider</a>
         </div>
-    {% endfor %}
-</div>
-
-<div class="text-end mt-3">
-    <h4>Total : {{ total }} €</h4>
-</div>
-
     {% else %}
         <p>Votre panier est vide.</p>
     {% endif %}
 </div>
+
 {% endblock %}
