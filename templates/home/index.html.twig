@@ -1,55 +1,58 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+{% endblock %}
+
 {% block title %}Hardware.Picker - Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Catégories</h1>
-
-    <div class="row">
-        {% for categorie in categories %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    {% if categorie.image %}
-                        <img src="{{ asset('uploads/images/categories/' ~ categorie.image) }}" class="card-img-top" alt="{{ categorie.nom }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ categorie.nom }}</h5>
-                        <button>Voir</button>
+<div class="container mt-5">
+    <section class="mb-5">
+        <h2 class="section-title">Catégories</h2>
+        <div class="row">
+            {% for categorie in categories %}
+                <div class="col-md-4">
+                    <div class="card category-card shadow-sm mb-4">
+                        {% if categorie.image %}
+                            <img src="{{ asset('uploads/images/categories/' ~ categorie.image) }}" class="card-img-top" alt="{{ categorie.nom }}">
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title">{{ categorie.nom }}</h5>
+                            <a href="{{ path('categorie_show', { id: categorie.id }) }}" class="btn btn-outline-secondary">Voir</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </section>
 
-    <h1>Nouveautés</h1>
-
-    <div class="row">
-        {% for article in articles %}
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    {% if article.image %}
-                        <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img-top" alt="{{ article.nom }}">
-                    {% endif %}
-                    <div class="card-body">
-                        <h5 class="card-title">{{ article.nom }}</h5>
-                        <p class="card-text"><strong>{{ article.prix }} €</strong></p>
-                        <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
-                            <button type="submit" class="btn btn-primary">Ajouter au panier</button>
-                        </form>
+    <section>
+        <h2 class="section-title">Nouveautés</h2>
+        <div class="row">
+            {% for article in articles %}
+                <div class="col-md-4">
+                    <div class="card product-card shadow-sm mb-4">
+                        {% if article.image %}
+                            <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img-top" alt="{{ article.nom }}">
+                        {% endif %}
+                        <div class="card-body text-center">
+                            <h5 class="card-title">
+                                <a href="{{ path('app_produit_show', { id: article.id }) }}" class="product-link">
+                                    {{ article.nom }}
+                                </a>
+                            </h5>
+                            <p class="card-text text-muted">{{ article.prix|number_format(2, '.', ' ') }} €</p>
+                            <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
+                                <button type="submit" class="btn btn-primary btn-sm">Ajouter au panier</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% else %}
-            <p>Aucun article disponible.</p>
-        {% endfor %}
-    </div>
-
-
+            {% else %}
+                <p>Aucun article disponible.</p>
+            {% endfor %}
+        </div>
+    </section>
 </div>
 {% endblock %}

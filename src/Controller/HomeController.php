@@ -22,4 +22,15 @@ final class HomeController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
+    #[Route('/categorie/{id}', name: 'categorie_show')]
+    public function showCategory(CategorieRepository $categorieRepository): Response
+    {
+        $categorie = $categorieRepository->findAll();
+
+        return $this->render('categorie/show.html.twig', [
+            'categorie' => $categorie,
+        ]);
+    }
+
 }

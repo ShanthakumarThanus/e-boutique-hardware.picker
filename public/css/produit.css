@@ -1,0 +1,12 @@
+img {
+    max-height: 400px;
+    object-fit: contain;
+}
+
+h2 {
+    font-weight: 600;
+}
+
+p {
+    font-size: 1.1rem;
+}
