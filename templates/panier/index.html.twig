@@ -40,7 +40,7 @@
 
         <div class="text-end mt-4">
             <h4>Total : {{ total }} € </h4>
-            <a href="test" class="btn btn-danger btn-sm">Valider</a>
+            <a href="{{ path('commande_nouvelle') }}" class="btn btn-danger btn-sm">Valider</a>
         </div>
     {% else %}
         <p>Votre panier est vide.</p>

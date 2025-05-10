@@ -123,4 +123,9 @@ final class PanierController extends AbstractController
         return $this->redirectToRoute('app_panier');
     }
 
+    #[Route('/commander', name: 'commander')]
+    public function payement(PanierRepository $panierRepository): Response
+    {
+        return $this->redirectToRoute('commander');
+    }
 }

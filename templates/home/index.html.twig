@@ -28,30 +28,31 @@
     </section>
 
     <section>
-        <h2 class="section-title">Nouveautés</h2>
+        <h2 class="section-title">Tendances</h2>
         <div class="row">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for article in articles %}
-                <div class="col-md-4">
-                    <div class="card product-card shadow-sm mb-4">
+                <div class="col">
+                    <div class="card h-100 text-center">
                         {% if article.image %}
                             <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img-top" alt="{{ article.nom }}">
                         {% endif %}
-                        <div class="card-body text-center">
+                        <div class="card-body">
                             <h5 class="card-title">
                                 <a href="{{ path('app_produit_show', { id: article.id }) }}" class="product-link">
                                     {{ article.nom }}
                                 </a>
                             </h5>
-                            <p class="card-text text-muted">{{ article.prix|number_format(2, '.', ' ') }} €</p>
+                            <p class="card-text"><strong>{{ article.prix }} €</strong></p>
                             <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Ajouter au panier</button>
                             </form>
                         </div>
                     </div>
                 </div>
-            {% else %}
-                <p>Aucun article disponible.</p>
             {% endfor %}
+        </div>
+
         </div>
     </section>
 </div>

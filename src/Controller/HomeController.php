@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ArticleRepository;
 use App\Repository\CategorieRepository;
+use App\Entity\Categorie;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -24,13 +25,13 @@ final class HomeController extends AbstractController
     }
 
     #[Route('/categorie/{id}', name: 'categorie_show')]
-    public function showCategory(CategorieRepository $categorieRepository): Response
+    public function show(Categorie $categorie): Response
     {
-        $categorie = $categorieRepository->findAll();
+        $articles = $categorie->getArticles();
 
         return $this->render('categorie/show.html.twig', [
             'categorie' => $categorie,
+            'articles' => $articles,
         ]);
     }
-
 }
