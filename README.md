@@ -107,6 +107,17 @@ ROLE_ADMIN : Doit être attribué manuellement via la base de données ou une in
 | Ajout d'une nouvelle catégorie                     | OK                     |
 | Gestion des utilisateurs (hors inscription)        | Non implémenté         |
 
+### 🔐 Comptes de démonstration
+
+- **Compte admin** :  
+  Email : `admin2@picker.com`  
+  Mot de passe : `Hardware.Picker`
+
+- **Compte utilisateur** :  
+  Email : `test@picker.com`  
+  Mot de passe : `Hardware.Picker`
+
+
 ## 🤓 Auteur
 
 Développé par Thanus SHANTHAKUMAR.
