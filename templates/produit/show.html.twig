@@ -19,9 +19,13 @@
             <p class="text-muted">{{ article.description }}</p>
             <h4 class="mb-3">{{ article.prix|number_format(2, '.', ' ') }} €</h4>
 
+            {% if is_granted('ROLE_USER') %}
             <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
                 <button type="submit" class="btn btn-primary">Ajouter au panier</button>
             </form>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn btn-outline-secondary btn-sm">Ajouter au panier</a>
+            {% endif %}
         </div>
     </div>
 </div>

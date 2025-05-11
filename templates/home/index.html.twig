@@ -49,9 +49,13 @@
                                 </a>
                             </h5>
                             <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+                            {% if is_granted('ROLE_USER') %}
                             <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
                                 <button type="submit" class="btn btn-primary btn-sm">Ajouter au panier</button>
                             </form>
+                            {% else %}
+                               <a href="{{ path('app_produit_show', { id: article.id }) }}" class="btn btn-outline-secondary btn-sm">Voir</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
