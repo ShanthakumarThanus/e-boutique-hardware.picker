@@ -1,5 +1,7 @@
 # 🛒 e-boutique-hardware.picker
 
+🔗 Voir ma boutique en ligne : https://thanus.alwaysdata.net/hardware.picker/
+
 **e-boutique-hardware.picker** est une application développée avec le framework Symfony. Elle permet aux utilisateurs de parcourir une sélection de produits informatiques (Processeur, Carte Graphique), de les ajouter à leur panier et de passer commande. Le projet inclut une interface d'administration pour la gestion des produits, des utilisateurs et des commandes.
 
 ---
