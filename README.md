@@ -90,6 +90,23 @@ chmod -R 775 public/uploads
 ROLE_USER : Attribué automatiquement lors de l'inscription d'un nouvel utilisateur.
 ROLE_ADMIN : Doit être attribué manuellement via la base de données ou une interface d'administration pour accéder aux fonctionnalités de gestion.
 
+## ✅ Évaluation & Remarques
+
+### Fonctionnalités à valider avec état (OK / NOK / Bugs / Non fonctionnel)
+
+| Fonctionnalité                                     | État                   |
+| -------------------------------------------------- | ---------------------- |
+| Login (connexion)                                  | OK                     |
+| Inscription                                        | OK                     |
+| Parcours par catégorie                             | OK                     |
+| Parcours des articles                              | OK                     |
+| Mise au panier                                     | OK                     |
+| Ajustement des quantités au panier avec prix total | OK                     |
+| Message de commande faite                          | OK                     |
+| Ajout d'un nouveau type d'article                  | OK                     |
+| Ajout d'une nouvelle catégorie                     | OK                     |
+| Gestion des utilisateurs (hors inscription)        | Non implémenté         |
+
 ## 🤓 Auteur
 
 Développé par Thanus SHANTHAKUMAR.
