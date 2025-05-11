@@ -9,6 +9,11 @@
 {% block body %}
 <div class="container mt-5">
     <section class="mb-5">
+        {% for message in app.flashes('success') %}
+            <div>
+                <div class="alert alert-success">{{ message }}</div>
+            <div>
+        {% endfor %}
         <h2 class="section-title">Catégories</h2>
         <div class="row">
             {% for categorie in categories %}
@@ -31,7 +36,7 @@
         <h2 class="section-title">Tendances</h2>
         <div class="row">
             <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for article in articles %}
+            {% for article in articles|slice(0, 3) %}
                 <div class="col">
                     <div class="card h-100 text-center">
                         {% if article.image %}
@@ -52,8 +57,60 @@
                 </div>
             {% endfor %}
         </div>
-
+    </section>
+    <section>
+        <h2 class="section-title">Processeurs</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% set processeurs = articles|filter(a => a.categorie.nom == 'Processeur')|slice(0, 3) %}
+            {% for article in processeurs %}
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        {% if article.image %}
+                            <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img-top" alt="{{ article.nom }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('app_produit_show', { id: article.id }) }}" class="product-link">
+                                    {{ article.nom }}
+                                </a>
+                            </h5>
+                            <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+                            <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
+                                <button type="submit" class="btn btn-primary btn-sm">Ajouter au panier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
+
+    <section>
+        <h2 class="section-title">Cartes Graphiques</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% set cartes = articles|filter(a => a.categorie.nom == 'Carte Graphique')|slice(0, 3) %}
+            {% for article in cartes %}
+                <div class="col">
+                    <div class="card h-100 text-center">
+                        {% if article.image %}
+                            <img src="{{ asset('uploads/images/' ~ article.image) }}" class="card-img-top" alt="{{ article.nom }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path('app_produit_show', { id: article.id }) }}" class="product-link">
+                                    {{ article.nom }}
+                                </a>
+                            </h5>
+                            <p class="card-text"><strong>{{ article.prix }} €</strong></p>
+                            <form method="POST" action="{{ path('ajouter_au_panier', { id: article.id }) }}">
+                                <button type="submit" class="btn btn-primary btn-sm">Ajouter au panier</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
 </div>
 {% endblock %}

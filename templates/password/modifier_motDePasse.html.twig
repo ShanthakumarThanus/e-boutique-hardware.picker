@@ -6,9 +6,31 @@
 <div class="container mt-4">
     <h1>Changer mon mot de passe</h1>
 
-    {{ form_start(form) }}
-        {{ form_row(form.newPassword) }}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    {{ form_start(form, {
+        attr: {
+            'data-turbo': 'false',
+            class: 'mt-4'
+        }
+    }) }}
+
+        <div class="mb-3">
+            {{ form_label(form.oldPassword) }}
+            {{ form_widget(form.oldPassword) }}
+            {{ form_errors(form.oldPassword) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.newPassword) }}
+            {{ form_widget(form.newPassword) }}
+            {{ form_errors(form.newPassword) }}
+        </div>
+
         <button class="btn btn-primary">Valider</button>
+
     {{ form_end(form) }}
 </div>
 {% endblock %}

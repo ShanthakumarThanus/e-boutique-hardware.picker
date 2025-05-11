@@ -11,9 +11,8 @@
             <div class="card mb-3">
                 <div class="card-body">
                     <h5>Commande n°{{ commande.id }}</h5>
-                    <p>Date : {{ commande.dateCommande|date('d/m/Y H:i') }}</p>
+                    <p>Effectuée le : {{ commande.dateCommande|date('d/m/Y H:i') }}</p>
                     <p>Total : {{ commande.total }} €</p>
-                    <p>Statut : {{ commande.statut }}</p>
                 </div>
             </div>
         {% endfor %}

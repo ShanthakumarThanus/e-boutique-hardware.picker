@@ -16,6 +16,18 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
+    public function findByCategorieNom(string $nomCategorie, int $limit = 4): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.categorie', 'c')
+            ->where('c.nom = :nom')
+            ->setParameter('nom', $nomCategorie)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+
     //    /**
     //     * @return Article[] Returns an array of Article objects
     //     */
