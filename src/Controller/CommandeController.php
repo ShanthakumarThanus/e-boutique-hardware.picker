@@ -74,4 +74,18 @@ final class CommandeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/mes-commandes', name: 'mes_commandes')]
+    public function mesCommandes(CommandeRepository $commandeRepository): Response
+    {
+        /** @var \App\Entity\Utilisateur $utilisateur */
+        $utilisateur = $this->getUser();
+
+        $commandes = $commandeRepository->findBy(['utilisateur' => $utilisateur], ['dateCommande' => 'DESC']);
+
+        return $this->render('commande/historique.html.twig', [
+            'commandes' => $commandes,
+        ]);
+    }
+
 }

@@ -54,6 +54,9 @@ final class PanierController extends AbstractController
             $em->persist($panier);
             $utilisateur->setPanier($panier);
         }
+        else {
+            $this->redirectToRoute('app_login');
+        }
 
         // Vérifie si une ligne existe déjà pour cet article
         $ligneExistante = null;
